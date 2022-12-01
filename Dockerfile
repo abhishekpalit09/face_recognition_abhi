@@ -48,5 +48,5 @@ RUN cd /root/face_recognition && \
 
 # Add pip3 install opencv-python==4.1.2.30 if you want to run the live webcam examples
 
-CMD cd /root/face_recognition/examples && \
-    python3 recognize_faces_in_pictures.py
+CMD cd /root/face_recognition/examples/ipynb_examples && \
+    python3 abhi_face_match.py
