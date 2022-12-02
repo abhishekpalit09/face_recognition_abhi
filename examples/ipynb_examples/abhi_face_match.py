@@ -5,6 +5,10 @@ import face_recognition
 
 app = Flask(__name__)
 
+@app.route('/hi', methods=['POST'])
+def hello():
+    print("Hello")
+
 @app.route('/post_json', methods=['POST'])
 def process_json():
     content_type = request.headers.get('Content-Type')
@@ -54,4 +58,4 @@ def photo_match():
 
 
 
-app.run(host="0.0.0.0",port=80,debug=True,use_reloader=True)
+app.run(host="0.0.0.0",port=5000,debug=True,use_reloader=True)
