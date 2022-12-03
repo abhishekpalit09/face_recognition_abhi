@@ -29,8 +29,8 @@ def photo_match():
     if (content_type == 'application/json'):
         # json = request.json
         req_body = request.get_json()
-#         filepath1 = req_body.get('filepath1')
-#         filepath2 = req_body.get('filepath2')
+        filepath1 = req_body.get('filepath1')
+        filepath2 = req_body.get('filepath2')
 
 #         filepath1 = "/root/face_recognition/examples/Abhi_ID.jpeg"
 #         filepath2 = "/root/face_recognition/examples/Abhi_Selfie.jpeg"
