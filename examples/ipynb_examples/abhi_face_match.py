@@ -5,6 +5,10 @@ import face_recognition
 
 app = Flask(__name__)
 
+@app.route('/')
+def hello_geek():
+    return '<h1>Hello from Flask & Docker</h2>'
+
 @app.route('/hi', methods=['POST'])
 def hello():
     print("Hello")
