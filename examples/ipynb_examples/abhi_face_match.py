@@ -32,8 +32,8 @@ def photo_match():
 #         filepath1 = req_body.get('filepath1')
 #         filepath2 = req_body.get('filepath2')
 
-        filepath1 = "/root/face_recognition/examples/Abhi_ID.jpeg"
-        filepath2 = "/root/face_recognition/examples/Abhi_Selfie.jpeg"
+#         filepath1 = "/root/face_recognition/examples/Abhi_ID.jpeg"
+#         filepath2 = "/root/face_recognition/examples/Abhi_Selfie.jpeg"
 
         ID_image = face_recognition.load_image_file(filepath1)
         # unknown_image = face_recognition.load_image_file("For_FB2.jpg")
