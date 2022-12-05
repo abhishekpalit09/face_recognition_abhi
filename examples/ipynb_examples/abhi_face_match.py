@@ -1,6 +1,7 @@
 from flask import Flask, request
 import json
 import face_recognition
+from urllib.request import urlopen
 # ...
 
 app = Flask(__name__)
@@ -31,13 +32,16 @@ def photo_match():
         req_body = request.get_json()
         filepath1 = req_body.get('filepath1')
         filepath2 = req_body.get('filepath2')
+        
+        f1 = urlopen(filepath1)
+        f2 = urlopen(filepath2)
 
 #         filepath1 = "/root/face_recognition/examples/Abhi_ID.jpeg"
 #         filepath2 = "/root/face_recognition/examples/Abhi_Selfie.jpeg"
 
-        ID_image = face_recognition.load_image_file(filepath1)
+        ID_image = face_recognition.load_image_file(f1)
         # unknown_image = face_recognition.load_image_file("For_FB2.jpg")
-        Selfie_image = face_recognition.load_image_file(filepath2)
+        Selfie_image = face_recognition.load_image_file(f2)
 
         ID_image_encoding = face_recognition.face_encodings(ID_image)[0]
         Selfie_image_encoding = face_recognition.face_encodings(Selfie_image)[0]
