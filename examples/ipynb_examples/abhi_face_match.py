@@ -6,10 +6,6 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_geek():
-    return '<h1>Hello from Flask & Docker</h2>'
-
 @app.route('/hi', methods=['POST'])
 def hello():
     print("Hello")
@@ -32,28 +28,40 @@ def photo_match():
         req_body = request.get_json()
         filepath1 = req_body.get('filepath1')
         filepath2 = req_body.get('filepath2')
+
+        # filepath1 = "Abhi_ID.jpeg"
+        # filepath2 = "Abhi_Selfie.jpeg"
         
+        # filepath1 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_ID.jpg"
+        # filepath2 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_Selfie.jpeg"
+
+        # filepath1 =  "https://facecont.blob.core.windows.net/facedata/Aish1_ID.jpeg",
+        # filepath2 =  "https://facecont.blob.core.windows.net/facedata/Aish1_Selfie.jpeg"
+
         f1 = urlopen(filepath1)
         f2 = urlopen(filepath2)
 
-#         filepath1 = "/root/face_recognition/examples/Abhi_ID.jpeg"
-#         filepath2 = "/root/face_recognition/examples/Abhi_Selfie.jpeg"
+        try:
 
-        ID_image = face_recognition.load_image_file(f1)
-        # unknown_image = face_recognition.load_image_file("For_FB2.jpg")
-        Selfie_image = face_recognition.load_image_file(f2)
+   
+            ID_image = face_recognition.load_image_file(f1)
+            # unknown_image = face_recognition.load_image_file("For_FB2.jpg")
+            Selfie_image = face_recognition.load_image_file(f2)
 
-        ID_image_encoding = face_recognition.face_encodings(ID_image)[0]
-        Selfie_image_encoding = face_recognition.face_encodings(Selfie_image)[0]
+            ID_image_encoding = face_recognition.face_encodings(ID_image)[0]
+            Selfie_image_encoding = face_recognition.face_encodings(Selfie_image)[0]
 
-        results = face_recognition.compare_faces([Selfie_image_encoding], ID_image_encoding)
+            results = face_recognition.compare_faces([Selfie_image_encoding], ID_image_encoding)
 
-        # print(results)
+            # print(results)
 
-        if results == [True]:
-            return json.dumps({"Result" : "Matched"})
-        else:
-            return json.dumps({"Result" : "Not Matched"})
+            if results == [True]:
+                return json.dumps('Matched')
+            else:
+                return json.dumps('Not Matched')
+
+        except:
+            print("Not Matched")
 
 
         # if results == [True]:
@@ -66,8 +74,4 @@ def photo_match():
 
 
 
-# app.run(host="0.0.0.0",port=5000,debug=True,use_reloader=True)
-
-if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=80)
+app.run(host="0.0.0.0",port=80,debug=True,use_reloader=True)
