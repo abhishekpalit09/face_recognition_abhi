@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request,abort, jsonify
 import json
 import face_recognition
 from urllib.request import urlopen
@@ -19,29 +19,37 @@ def process_json():
     else:
         return 'Content-Type not supported!'
 
+@app.errorhandler(500)
+def resource_not_found(e):
+    # return jsonify(error=str(e)), 500
+    return jsonify('No Match')
+
+
 
 @app.route('/post_filename', methods=['POST'])
 def photo_match():
     content_type = request.headers.get('Content-Type')
     if (content_type == 'application/json'):
-        # json = request.json
-        req_body = request.get_json()
-        filepath1 = req_body.get('filepath1')
-        filepath2 = req_body.get('filepath2')
-
-        # filepath1 = "Abhi_ID.jpeg"
-        # filepath2 = "Abhi_Selfie.jpeg"
-        
-        # filepath1 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_ID.jpg"
-        # filepath2 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_Selfie.jpeg"
-
-        # filepath1 =  "https://facecont.blob.core.windows.net/facedata/Aish1_ID.jpeg",
-        # filepath2 =  "https://facecont.blob.core.windows.net/facedata/Aish1_Selfie.jpeg"
-
-        f1 = urlopen(filepath1)
-        f2 = urlopen(filepath2)
-
         try:
+        
+            # json = request.json
+            req_body = request.get_json()
+            filepath1 = req_body.get('filepath1')
+            filepath2 = req_body.get('filepath2')
+
+            # filepath1 = "Abhi_ID.jpeg"
+            # filepath2 = "Abhi_Selfie.jpeg"
+            
+            # filepath1 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_ID.jpg"
+            # filepath2 = "https://imagetest12.blob.core.windows.net/angular-file/Abhi_Selfie.jpeg"
+
+            # filepath1 =  "https://facecont.blob.core.windows.net/facedata/Aish1_ID.jpeg",
+            # filepath2 =  "https://facecont.blob.core.windows.net/facedata/Aish1_Selfie.jpeg"
+
+            f1 = urlopen(filepath1)
+            f2 = urlopen(filepath2)
+
+        
 
    
             ID_image = face_recognition.load_image_file(f1)
@@ -62,6 +70,7 @@ def photo_match():
 
         except:
             print("Not Matched")
+            abort(500, description="Resource not found")
 
 
         # if results == [True]:
